@@ -4,10 +4,10 @@ import { pokemonStyle } from './styles';
 import { fetchSprite } from '../fetches/FetchSprite';
 
 
-
 function DisplayPokemon({ pokemon }) {
     const [pokemonData, setPokemonData] = useState(null);
     const [sprite, setSprite] = useState(null);
+    const [types, setTypes] = useState('');
 
     useEffect(() => {
         const fetchPokemonData = async () => {
@@ -15,11 +15,15 @@ function DisplayPokemon({ pokemon }) {
                 const data = await fetchdata(pokemon);
 
                 const spriteData = await fetchSprite(pokemon);
-                console.log("Sprite data:", spriteData);
-                console.log("Sprite URL:", sprite);
-
+                let typesList = '';
+                data.types.forEach((item) => {
+                    console.log("Type:", item.type.name);
+                    typesList += item.type.name.toUpperCase() + ' ';
+                });
+                
                 setPokemonData(data);
                 setSprite(spriteData);
+                setTypes(typesList.trimEnd());
             } catch (error) {
                 console.log(error);
                 setPokemonData(null);
@@ -39,9 +43,10 @@ function DisplayPokemon({ pokemon }) {
     
     return (
         <div sytle={pokemonStyle}>
-            <h2>{pokemonData.name.toUpperCase()}</h2>
-            <h3>Types: {pokemonData.type}</h3>
             <img src={sprite} alt={`${pokemonData.name} sprite`}/>
+            <h2>{pokemonData.name.toUpperCase()}</h2>
+            <h3>Types: {types} </h3>
+            
         </div>
     );
 }

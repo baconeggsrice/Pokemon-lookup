@@ -12,6 +12,7 @@ export const searchContainer = {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vp',
+    flexDirection: 'column',
 }
 
 export const titleStyle = {
